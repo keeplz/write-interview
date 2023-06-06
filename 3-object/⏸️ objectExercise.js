@@ -27,6 +27,7 @@ console.log(is(0, 0), Object.is(0, 0));
 // ============Object.assign============================================================================================================================
 
 if (typeof Object.prototype.myAssign !== "function") {
+  console.log("test pr");
 }
 
 // const a = { a: 1 };
