@@ -21,8 +21,11 @@ function myinstanceof(left, right) {
 // ✅ Object.is
 function myis(a, b) {
   if (a === b) {
+    // 判断 +- 0
     return a !== 0 || 1 / x === 1 / y;
   } else {
+    // NaN 的情况
+
     return a !== a && b !== b;
   }
 }
