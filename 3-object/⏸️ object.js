@@ -77,15 +77,24 @@ if (typeof Object.prototype.myAssign !== "function") {
     configurable: true,
   });
 }
-const a = { a: 1 };
-const b = { a: 2, b: 3 };
-console.log(Object.myAssign(a, b));
+// const a = { a: 1 };
+// const b = { a: 2, b: 3 };
+// console.log(Object.myAssign(a, b));
 
 // ============Object.assign============================================================================================================================
 
-// ✅ Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__。
+// ============Object.create============================================================================================================================
+
+//  Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__。
 function create(proto) {
   function F() {}
   F.prototype = proto;
   return new F();
 }
+
+// const obj = { eat: true };
+// const o = create(obj);
+// const o2 = Object.create(obj);
+// console.log(o.eat, o2.eat);
+
+// ============Object.create============================================================================================================================
