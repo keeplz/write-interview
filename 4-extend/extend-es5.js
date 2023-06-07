@@ -9,14 +9,14 @@ function ex1() {
   var subT = new SubType();
 
   subT.colors.push("green");
-  console.log(subT);
+  console.log(subT.colors);
 
   var subT2 = new SubType();
   subT2.colors.push("blue");
 
-  console.log(subT2);
+  console.log(subT2.colors);
 }
-// ex1();
+ex1();
 
 // 1. 原型链继承
 // 缺点
@@ -114,3 +114,50 @@ function ex4() {
 // ex4();
 // 4. 寄生组合式继承
 // 最成熟的继承
+
+// es5 继承
+function create(proto) {
+  function F() {}
+  F.prototype = proto;
+  return new F();
+}
+
+// Parent
+function Parent(name) {
+  this.name = name;
+}
+
+Parent.prototype.sayName = function () {
+  console.log(this.name);
+};
+
+// Child
+function Child(age, name) {
+  Parent.call(this, name);
+  this.age = age;
+}
+Child.prototype = create(Parent.prototype);
+Child.prototype.constructor = Child;
+Child.prototype.sayAge = function () {
+  console.log(this.age);
+};
+// es6 继承
+// ES6 内部使用寄生组合式继承，首先用 Object.create 继承原型，
+// 并传递第二个参数以将父类构造函数指向自身，同时设置数据属性描述符。
+// 然后用 Object.setPrototypeOf 继承静态属性和静态方法。
+const inherit = function (subType, superType) {
+  // 对 superType 进行类型判断
+  if (typeof superType !== "function" && superType !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+  subType.prototype = Object.create(superType && superType.prototype, {
+    constructor: {
+      configurable: true,
+      enumerable: false,
+      value: subType,
+      writable: true,
+    },
+  });
+  // 继承静态方法
+  superType && Object.setPrototypeOf(subType, superType);
+};
