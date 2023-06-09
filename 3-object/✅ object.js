@@ -54,7 +54,7 @@ function myis(a, b) {
 if (typeof Object.prototype.myAssign !== "function") {
   Object.defineProperty(Object.prototype, "myAssign", {
     value: function (target, ...args) {
-      if (this == null) {
+      if (target == null) {
         throw new Error("Can' convert null or undefined to object");
       }
       const O = Object(target);
@@ -79,6 +79,7 @@ if (typeof Object.prototype.myAssign !== "function") {
 }
 // const a = { a: 1 };
 // const b = { a: 2, b: 3 };
+// console.log(Object.myAssign(null, a));
 // console.log(Object.myAssign(a, b));
 
 // ============Object.assign============================================================================================================================
