@@ -5,20 +5,21 @@ function myInstanceof2(left, right) {}
 
 // function Car() {}
 // const bmw = new Car();
-// console.log(myInstanceof2(bmw, Car));
-// console.log(myInstanceof2(bmw, Function));
-// console.log(myInstanceof2(Car, Function));
+// console.log(myInstanceof(bmw, Car) === bmw instanceof Car);
+// console.log(myInstanceof(bmw, Function) === bmw instanceof Function);
+// console.log(myInstanceof(bmw, Object) === bmw instanceof Object);
+// console.log(myInstanceof(Car, Function) === Car instanceof Function);
 
 // ============instanceof============================================================================================================================
 
 // ============Object.is============================================================================================================================
 
 function is(a, b) {}
-// console.log(is(undefined, undefined), Object.is(undefined, undefined));
-// console.log(is(null, null), Object.is(null, null));
-// console.log(is(NaN, NaN), Object.is(NaN, NaN));
-// console.log(is(0, -0), Object.is(0, -0));
-// console.log(is(0, 0), Object.is(0, 0));
+// console.log(is(undefined, undefined) === Object.is(undefined, undefined));
+// console.log(is(null, null) === Object.is(null, null));
+// console.log(is(NaN, NaN) === Object.is(NaN, NaN));
+// console.log(is(0, -0) === Object.is(0, -0));
+// console.log(is(0, 0) === Object.is(0, 0));
 
 // ============Object.is============================================================================================================================
 
@@ -38,9 +39,9 @@ if (typeof Object.prototype.myAssign !== "function") {
 
 function create(proto) {}
 
-// const obj = { eat: "eat" };
+// const obj = { eat: true };
 // const o = create(obj);
 // const o2 = Object.create(obj);
-// console.log(o.eat, o2.eat);
+// console.log(o.eat === o2.eat);
 
 // ============Object.create============================================================================================================================

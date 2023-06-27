@@ -23,7 +23,10 @@ function myInstanceof(left, right) {
 
 // Function 2
 function myInstanceof2(left, right) {
-  if (typeof left !== "object" || left == null) {
+  if (
+    (typeof left !== "object" && typeof left !== "function") ||
+    left == null
+  ) {
     return false;
   }
   if (typeof right !== "function") {
@@ -53,14 +56,13 @@ function myis(a, b) {
 
 if (typeof Object.prototype.myAssign !== "function") {
   Object.defineProperty(Object.prototype, "myAssign", {
-    value: function (target, ...args) {
+    value: function (target, ...sources) {
       if (target == null) {
-        throw new Error("Can' convert null or undefined to object");
+        throw new Error("Can't convert null or undefined to object");
       }
       const O = Object(target);
 
-      for (let i = 0; i < args.length; i++) {
-        const source = args[i];
+      for (let source of sources) {
         if (source !== null) {
           for (let k in source) {
             if (Object.prototype.hasOwnProperty.call(source, k)) {
@@ -72,9 +74,9 @@ if (typeof Object.prototype.myAssign !== "function") {
 
       return O;
     },
-    writable: true,
-    enumerable: true,
-    configurable: true,
+    writable: false,
+    enumerable: false,
+    configurable: false,
   });
 }
 // const a = { a: 1 };
@@ -96,6 +98,6 @@ function create(proto) {
 // const obj = { eat: true };
 // const o = create(obj);
 // const o2 = Object.create(obj);
-// console.log(o.eat, o2.eat);
+// console.log(o.eat === o2.eat);
 
 // ============Object.create============================================================================================================================
