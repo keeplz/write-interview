@@ -1,0 +1,1 @@
+测试参考：https://github.com/ydiguo/Promise#readme
