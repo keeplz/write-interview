@@ -1,6 +1,6 @@
-// 实现一个trim函数 // 函数柯丽化 // 阶乘函数 //数组扁平化 // 对象扁平化 // 防抖函数 // 节流函数
+// 实现一个trim函数 // 函数柯丽化 // 阶乘函数 //数组扁平化 // 对象扁平化
 // 字符串翻转 // 数组翻转 // 数组去重 // 数组排序去重 // 类数组转化数组 // 千分位 // 判断数字是否是回文数
-// 判断是否是素数 // call // apply // bind // new // 深拷贝 // 转换成为驼峰 // 验证电话 // 验证邮箱
+// 判断是否是素数 // 深拷贝 // 转换成为驼峰 // 验证电话 // 验证邮箱
 // indexof // 模板引擎 // 解析url // 跨域 // 随机打乱数组 // 轮训
 
 // ✅ 实现一个trim函数
@@ -140,55 +140,6 @@ function objectFlat(obj = {}) {
   return res;
 }
 
-// 防抖函数
-//  immediate 参数判断是否是立刻执行
-function debounce(fn, time, immediate) {
-  var timeout;
-  return function () {
-    var context = this;
-    var args = arguments;
-    if (timeout) clearTimeout(timeout);
-    if (immediate) {
-      var call = !timeout;
-      timeout = setTimeout(function () {
-        timeout = null;
-      }, time);
-      if (call) fn.apply(context, args);
-    } else {
-      timeout = setTimeout(function () {
-        fn.apply(context, args);
-      }, time);
-    }
-  };
-}
-// 简易版
-function debounce(fn, time) {
-  var timeout;
-  return function () {
-    var context = this;
-    var args = arguments;
-    clearTimeout(timeout);
-    timeout = setTimeout(function () {
-      fn.apply(context, args);
-    }, time);
-  };
-}
-
-// 节流函数
-function throttle(fn, time) {
-  var timeout;
-  return function () {
-    var context = this;
-    var args = arguments;
-    if (!timeout) {
-      timeout = setTimeout(function () {
-        timeout = null;
-        fn.apply(context, args);
-      }, time);
-    }
-  };
-}
-
 // 字符串翻转
 function foo(str) {
   return str.split("").reverse();
@@ -275,65 +226,6 @@ function p(n) {
     }
   if (flag == true) console.log(n + "是素数");
   else console.log(n + "不是素数");
-}
-// call 调用一个函数, 其具有一个指定的this值和分别地提供的参数(参数的列表)。
-Function.prototype.myCall = function (context) {
-  //此处没有考虑context非object情况
-  context.fn = this;
-  let args = [];
-  for (let i = 1, len = arguments.length; i < len; i++) {
-    args.push(arguments[i]);
-  }
-  context.fn(...args);
-  let result = context.fn(...args);
-  delete context.fn;
-  return result;
-};
-
-// apply 调用一个函数，以及作为一个数组（或类似数组对象）提供的参数
-Function.prototype.myapply = function (context, arr) {
-  var context = Object(context) || window;
-  context.fn = this;
-  var result;
-  if (!arr) {
-    result = context.fn();
-  } else {
-    var args = [];
-    for (var i = 0, len = arr.length; i < len; i++) {
-      args.push("arr[" + i + "]");
-    }
-    result = eval("context.fn(" + args + ")");
-  }
-
-  delete context.fn;
-  return result;
-};
-// bind 会创建一个新函数。当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，之后的一序列参数将会在传递的实参前传入作为它的参数
-Function.prototype.myBind = function (context = globalThis) {
-  const fn = this;
-  const args = Array.from(arguments).slice(1);
-  const newFunc = function () {
-    const newArgs = args.concat(...arguments);
-    if (this instanceof newFunc) {
-      // 通过 new 调用，绑定 this 为实例对象
-      fn.apply(this, newArgs);
-    } else {
-      // 通过普通函数形式调用，绑定 context
-      fn.apply(context, newArgs);
-    }
-  };
-  // 支持 new 调用方式
-  newFunc.prototype = Object.create(fn.prototype);
-  return newFunc;
-};
-
-// new
-function mynew(fn, ...rest) {
-  let instance = Object.create(fn.prototype);
-  let res = fn.apply(instance, rest);
-  return res !== null && (typeof res === "object" || typeof res === "function")
-    ? res
-    : instance;
 }
 
 // 深拷贝
