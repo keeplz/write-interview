@@ -35,6 +35,7 @@
 */
 
 // ========= why resolve should be an arrow function =================
+// https://zh.javascript.info/class#shi-yong-lei-zi-duan-zhi-zuo-bang-ding-fang-fa
 
 // class Demo {
 //   constructor(name) {
@@ -70,6 +71,8 @@ class MPromise {
   static resolve(v) {}
   static reject(v) {}
 }
+
+module.exports = MPromise;
 
 function resolvePromise(promise, x, resolve, reject) {}
 

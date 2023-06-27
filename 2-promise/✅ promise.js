@@ -70,20 +70,24 @@ class MPromise {
 
     const promise2 = new MPromise((resolve, reject) => {
       const onFulfilledMicroTask = () => {
-        try {
-          const x = onFulfilled(this.value);
-          resolvePromise2(promise2, x, resolve, reject);
-        } catch (e) {
-          reject(e);
-        }
+        queueMicrotask(() => {
+          try {
+            const x = onFulfilled(this.value);
+            resolvePromise2(promise2, x, resolve, reject);
+          } catch (e) {
+            reject(e);
+          }
+        });
       };
       const onRejectedMicroTask = () => {
-        try {
-          const x = onRejected(this.value);
-          resolvePromise2(promise2, x, resolve, reject);
-        } catch (e) {
-          reject(e);
-        }
+        queueMicrotask(() => {
+          try {
+            const x = onRejected(this.value);
+            resolvePromise2(promise2, x, resolve, reject);
+          } catch (e) {
+            reject(e);
+          }
+        });
       };
 
       if (this.status === FULFILLED) {
@@ -174,10 +178,7 @@ Promise.race = function (promiseArr) {
   return new Promise((resolve, reject) => {
     promiseArr.forEach((p) => {
       // 如果不是Promise实例需要转化为Promise实例
-      Promise.resolve(p).then(
-        (val) => resolve(val),
-        (err) => reject(err)
-      );
+      Promise.resolve(p).then(resolve, reject);
     });
   });
 };

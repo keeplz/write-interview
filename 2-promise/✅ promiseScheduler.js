@@ -38,7 +38,7 @@ class Scheduler {
   }
 }
 
-const s = new Scheduler(2);
+const s = new Scheduler2(2);
 const timeout = (time) =>
   new Promise((resolve) => {
     setTimeout(resolve, time);
