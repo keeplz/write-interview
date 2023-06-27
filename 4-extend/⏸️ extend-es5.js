@@ -115,32 +115,6 @@ function ex4() {
 // 4. 寄生组合式继承
 // 最成熟的继承
 
-// es5 继承
-function create(proto) {
-  function F() {}
-  F.prototype = proto;
-  return new F();
-}
-
-// Parent
-function Parent(name) {
-  this.name = name;
-}
-
-Parent.prototype.sayName = function () {
-  console.log(this.name);
-};
-
-// Child
-function Child(age, name) {
-  Parent.call(this, name);
-  this.age = age;
-}
-Child.prototype = create(Parent.prototype);
-Child.prototype.constructor = Child;
-Child.prototype.sayAge = function () {
-  console.log(this.age);
-};
 // es6 继承
 // ES6 内部使用寄生组合式继承，首先用 Object.create 继承原型，
 // 并传递第二个参数以将父类构造函数指向自身，同时设置数据属性描述符。
