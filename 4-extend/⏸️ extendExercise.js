@@ -127,6 +127,7 @@ function combineParasiticInherit() {
 // combineParasiticInherit();
 
 // 行为委托的实现
+
 function OLOO() {
   const Sup = {
     init(name) {
@@ -171,3 +172,44 @@ function OLOO() {
 }
 
 // OLOO();
+
+(function () {
+  // OLOO 风格实现继承
+  // Animal Rabbit
+  const Animal = {
+    planet: "Earth",
+    init(name, speed) {
+      this.name = name;
+      this.speed = speed;
+    },
+    run(speed = 0) {
+      this.speed += speed;
+      console.log(`${this.name}runs with speed ${this.speed}`);
+    },
+    compare(animalA, animalB) {
+      return animalA.speed - animalB.speed;
+    },
+  };
+
+  const Rabbit = {
+    hide() {
+      console.log(`${this.name} hides`);
+    },
+  };
+
+  Object.setPrototypeOf(Rabbit, Animal);
+
+  const rabbit1 = Object.create(Rabbit);
+  rabbit1.init("White Rabbit", 10);
+
+  const rabbit2 = Object.create(Rabbit);
+  rabbit2.init("Black Rabbit", 5);
+
+  const rabbits = [rabbit1, rabbit2];
+
+  rabbits.sort(Rabbit.compare);
+
+  // rabbits[0].run();
+
+  // console.log(Rabbit.planet);
+})();
