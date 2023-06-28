@@ -125,3 +125,49 @@ function combineParasiticInherit() {
 }
 
 // combineParasiticInherit();
+
+// 行为委托的实现
+function OLOO() {
+  const Sup = {
+    init(name) {
+      this.name = name;
+      this.colors = ["red"];
+    },
+    sayName() {
+      console.log("this.name and this.colors: ", this.name, this.colors);
+    },
+  };
+
+  const Sub = {
+    setup(name, age) {
+      this.init(name);
+      this.age = age;
+    },
+    sayAge() {
+      console.log("this.age" + this.age);
+    },
+    addColor(color) {
+      this.colors.push(color);
+    },
+  };
+
+  Object.setPrototypeOf(Sub, Sup);
+
+  const sub1 = Object.create(Sub);
+
+  sub1.setup("sub1", 15);
+  sub1.addColor("sub1-color");
+  sub1.sayAge();
+  sub1.sayName();
+
+  const sub2 = Object.create(Sub);
+
+  sub2.setup("sub2", 22);
+  sub2.addColor("sub2-color");
+  sub2.sayAge();
+  sub2.sayName();
+
+  console.log(Sup.isPrototypeOf(Sub));
+}
+
+// OLOO();

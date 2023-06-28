@@ -115,23 +115,48 @@ function ex4() {
 // 4. 寄生组合式继承
 // 最成熟的继承
 
-// es6 继承
-// ES6 内部使用寄生组合式继承，首先用 Object.create 继承原型，
-// 并传递第二个参数以将父类构造函数指向自身，同时设置数据属性描述符。
-// 然后用 Object.setPrototypeOf 继承静态属性和静态方法。
-const inherit = function (subType, superType) {
-  // 对 superType 进行类型判断
-  if (typeof superType !== "function" && superType !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-  subType.prototype = Object.create(superType && superType.prototype, {
-    constructor: {
-      configurable: true,
-      enumerable: false,
-      value: subType,
-      writable: true,
+// 行为委托
+
+(function () {
+  const Sup = {
+    init(name) {
+      this.name = name;
+      this.colors = ["red"];
     },
-  });
-  // 继承静态方法
-  superType && Object.setPrototypeOf(subType, superType);
-};
+    sayName() {
+      console.log("this.name and this.colors: ", this.name, this.colors);
+    },
+  };
+
+  const Sub = {
+    setup(name, age) {
+      this.init(name);
+      this.age = age;
+    },
+    sayAge() {
+      console.log("this.age" + this.age);
+    },
+    addColor(color) {
+      this.colors.push(color);
+    },
+  };
+
+  Object.setPrototypeOf(Sub, Sup);
+
+  const sub1 = Object.create(Sub);
+
+  sub1.setup("sub1", 15);
+  sub1.addColor("sub1-color");
+  sub1.sayAge();
+  sub1.sayName();
+
+  const sub2 = Object.create(Sub);
+
+  sub2.setup("sub2", 22);
+  sub2.addColor("sub2-color");
+  sub2.sayAge();
+  sub2.sayName();
+
+  // 替代类世界的 instanceof 操作服
+  console.log(Sup.isPrototypeOf(Sub));
+})();
