@@ -128,11 +128,11 @@ Array.prototype.slice.call();
 
 // 千分位
 // toLocaleString
-var a = 1234567894532;
-var b = 67343931231.4542;
+var aA = 1234567894532;
+var bB = 67343931231.4542;
 
-console.log(a.toLocaleString());
-console.log(b.toLocaleString());
+console.log(aA.toLocaleString());
+console.log(bB.toLocaleString());
 //
 function numFormat(num) {
   num = num.toString().split("."); // 分隔小数点
@@ -274,8 +274,8 @@ function randomsort(a, b) {
   return Math.random() > 0.5 ? -1 : 1;
   //用Math.random()函数生成0~1之间的随机数与0.5比较，返回-1或1
 }
-var arr = [1, 2, 3, 4, 5];
-arr.sort(randomsort);
+var arrSorted = [1, 2, 3, 4, 5];
+arrSorted.sort(randomsort);
 // 法2
 function shuffle(a) {
   var len = a.length;
