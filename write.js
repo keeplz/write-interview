@@ -1,7 +1,7 @@
 // 实现一个trim函数 // 函数柯丽化 // 阶乘函数 //数组扁平化 // 对象扁平化
 // 字符串翻转 // 数组翻转 // 数组去重 // 数组排序去重 // 类数组转化数组 // 千分位 // 判断数字是否是回文数
 // 判断是否是素数 // 深拷贝 // 转换成为驼峰 // 验证电话 // 验证邮箱
-// indexof // 模板引擎 // 解析url // 跨域 // 随机打乱数组 // 轮训
+// 模板引擎 // 解析url // 跨域 // 随机打乱数组 // 轮训
 
 // ✅ 实现一个trim函数
 string.prototype.trim = () => this.replace(/^\s+/, "").replace(/\s+$/, "");
@@ -269,25 +269,7 @@ function isEmail(email) {
   var regx = /^([a-zA-Z0-9_\-])+@([a-zA-Z0-9_\-])+(\.[a-zA-Z0-9_\-])+$/;
   return regx.test(email);
 }
-// indexof
-function isIndexof(a, b) {
-  for (let i in b) {
-    if (a[0] === b[i]) {
-      let tmp = true;
-      for (let j in a) {
-        // 简单一点就是将一些变量转化为Number，字符串中带了其他字母，符号，或者其他除数字外的东西，一律输出 Number类型的0
-        // 任何boolen类型的，如果为TRUE则输出1，FALSE输出0；转化为Boolean是true的输出1，转化为boolean是false的输出0；
-        if (a[j] !== b[~~i + ~~j]) {
-          tmp = false;
-        }
-      }
-      if (tmp) {
-        return i;
-      }
-    }
-  }
-  return -1;
-}
+
 // 模板引擎
 function render(template, data) {
   const reg = /\{\{(\w+)\}\}/; // 模板字符串正则
