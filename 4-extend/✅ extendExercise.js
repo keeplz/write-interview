@@ -6,23 +6,33 @@
  * 3. constructor 丢失
  * 4. 修改子类原型方法需要在 prototype 替换之后
  */
-
 function prototypeChainInherit() {
   // 实现核心
   // 用超类的实例作为子类的原型对象
   function SuperType() {
     this.colors = ["red"];
   }
-  function SubType() {}
 
+  SuperType.prototype.sayName = function () {
+    console.log(this.name, this.colors);
+  };
+  function SubType(name, age) {
+    this.name = name;
+    this.age = age;
+  }
   SubType.prototype = new SuperType();
   SubType.prototype.constructor = SubType;
 
-  const sub1 = new SubType();
-  const sub2 = new SubType();
+  SubType.prototype.sayAge = function () {
+    console.log(this.age);
+  };
 
-  sub1.colors.push("black");
-  console.log(sub2.colors, sub2.constructor);
+  const sub1 = new SubType("sub1", 1);
+  const sub2 = new SubType("sub2", 2);
+
+  sub1.colors.push("sub1-color");
+  sub1.sayAge();
+  sub2.sayAge();
 }
 
 // prototypeChainInherit();
@@ -172,44 +182,3 @@ function OLOO() {
 }
 
 // OLOO();
-
-(function () {
-  // OLOO 风格实现继承
-  // Animal Rabbit
-  const Animal = {
-    planet: "Earth",
-    init(name, speed) {
-      this.name = name;
-      this.speed = speed;
-    },
-    run(speed = 0) {
-      this.speed += speed;
-      console.log(`${this.name}runs with speed ${this.speed}`);
-    },
-    compare(animalA, animalB) {
-      return animalA.speed - animalB.speed;
-    },
-  };
-
-  const Rabbit = {
-    hide() {
-      console.log(`${this.name} hides`);
-    },
-  };
-
-  Object.setPrototypeOf(Rabbit, Animal);
-
-  const rabbit1 = Object.create(Rabbit);
-  rabbit1.init("White Rabbit", 10);
-
-  const rabbit2 = Object.create(Rabbit);
-  rabbit2.init("Black Rabbit", 5);
-
-  const rabbits = [rabbit1, rabbit2];
-
-  rabbits.sort(Rabbit.compare);
-
-  // rabbits[0].run();
-
-  // console.log(Rabbit.planet);
-})();

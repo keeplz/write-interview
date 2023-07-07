@@ -3,18 +3,26 @@ function ex1() {
     this.colors = ["red"];
   }
 
-  function SubType() {}
+  SuperType.prototype.sayName = function () {
+    console.log(this.name, this.colors);
+  };
+  function SubType(name, age) {
+    this.name = name;
+    this.age = age;
+  }
   SubType.prototype = new SuperType();
   SubType.prototype.constructor = SubType;
-  var subT = new SubType();
 
-  subT.colors.push("green");
-  console.log(subT.colors);
+  SubType.prototype.sayAge = function () {
+    console.log(this.age);
+  };
 
-  var subT2 = new SubType();
-  subT2.colors.push("blue");
+  const sub1 = new SubType("sub1", 1);
+  const sub2 = new SubType("sub2", 2);
 
-  console.log(subT2.colors);
+  sub1.colors.push("sub1-color");
+  sub1.sayAge();
+  sub2.sayAge();
 }
 ex1();
 
@@ -157,6 +165,6 @@ function ex4() {
   sub2.sayAge();
   sub2.sayName();
 
-  // 替代类世界的 instanceof 操作服
+  // 替代类世界的 instanceof 操作符
   console.log(Sup.isPrototypeOf(Sub));
 })();
