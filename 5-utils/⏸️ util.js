@@ -97,6 +97,7 @@ function isIndexof(sub, parent) {
       for (let k = 0; k < sub.length; k++) {
         if (sub[k] !== parent[k + i]) {
           flag = false;
+          break;
         }
       }
 
@@ -157,8 +158,8 @@ const curry = (fn) => {
     if (args.length >= fn.length) {
       return fn.apply(this, args);
     } else {
-      return function (...innerArgs) {
-        return wrapper.apply(this, args.concat(innerArgs));
+      return function (...laterArgs) {
+        return wrapper.apply(this, [...args, ...laterArgs]);
       };
     }
   };
