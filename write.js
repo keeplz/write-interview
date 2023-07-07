@@ -1,53 +1,14 @@
-// 实现一个trim函数 // 函数柯丽化 // 阶乘函数 //数组扁平化 // 对象扁平化
+//数组扁平化 // 对象扁平化
 // 字符串翻转 // 数组翻转 // 数组去重 // 数组排序去重 // 类数组转化数组 // 千分位 // 判断数字是否是回文数
 // 判断是否是素数 // 深拷贝 // 转换成为驼峰 // 验证电话 // 验证邮箱
 // 模板引擎 // 解析url // 跨域 // 随机打乱数组 // 轮训
-
-// ✅ 实现一个trim函数
-string.prototype.trim = () => this.replace(/^\s+/, "").replace(/\s+$/, "");
 
 // 浅拷贝：创建一个空对象，将原始对象的属性值进行拷贝，如果是基本类型，拷贝的就是值，如果是引用类型，拷贝的是内存地址
 Object.assign();
 concat();
 slice();
-展开运算符;
+// 展开运算符;
 // 深拷贝：将一个对象从内存中拷贝一份，从堆内存中开辟一个新的空间进行存放
-
-// 函数柯丽化：只传递一部分参数给函数用来调用它，让他返回一个函数去处理剩下的参数
-add(1)(2)(3);
-let add = (x) => (y) => (z) => x + y + z;
-// 升级版
-let curry = (fn, ...args) => {
-  fn.length > args.length
-    ? fn(...args)
-    : (..._args) => curry(fn, ...args, ..._args);
-};
-function add1(x, y, z) {
-  return x + y + z;
-}
-const add = curry(add1());
-// es6写法
-const curry =
-  (fn, arr = []) =>
-  (...args) =>
-    ((arg) => (arg.length === fn.length ? fn(...arg) : curry(fn, arg)))([
-      ...arr,
-      ...args,
-    ]);
-
-let curryTest = curry((a, b, c, d) => a + b + c + d);
-curryTest(1, 2, 3)(4); //返回10
-curryTest(1, 2)(4)(3); //返回10
-curryTest(1, 2)(3, 4); //返回10
-
-// 阶乘函数
-function foo(num) {
-  if (num <= 1) {
-    return 1;
-  } else {
-    return num * arguments.callee(num - 1);
-  }
-}
 
 //数组扁平化
 // 法1
