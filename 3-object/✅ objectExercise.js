@@ -33,6 +33,8 @@ if (typeof Object.prototype.myAssign !== "function") {
 // console.log(Object.myAssign(a, b));
 // console.log(Object.myAssign(null, a));
 // console.log(Object.myAssign("abc", { a: 1 }));
+// console.log(Object.myAssign(a, b, { c: 4 }));
+
 // ============Object.assign============================================================================================================================
 
 // ============Object.create============================================================================================================================
