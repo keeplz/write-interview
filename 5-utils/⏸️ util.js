@@ -5,6 +5,11 @@
 // 4. String.prototype.trim
 // 5. 柯里化 currying
 // 6. 阶乘
+// 7. 数组扁平化-普通递归
+// 7.1 数组扁平化-reduce
+// 8. 对象扁平化
+// 9. 字符串反转 + bench
+// 10. 数组反转 + bench
 
 // debounce 防抖
 // throttle 节流
@@ -197,3 +202,162 @@ function factorial(num) {
 // console.log(factorial(0) === 0);
 // console.log(factorial(-100) === 0);
 // ---------阶乘------------------------------------------------------------------------------
+
+// ---------数组扁平化-普通递归------------------------------------------------------------------------------
+
+function flatNormal(arr) {
+  if (!Array.isArray(arr)) return;
+  let flattedArray = [];
+
+  for (let item of arr) {
+    if (Array.isArray(item)) {
+      flattedArray = flattedArray.concat(flatNormal(item));
+    } else {
+      flattedArray = flattedArray.concat(item);
+    }
+  }
+
+  return flattedArray;
+}
+
+// console.log(flatNormal([1, 2, [3, [4, 5]]]));
+// ---------数组扁平化-普通递归------------------------------------------------------------------------------
+
+// ---------数组扁平化-reduce------------------------------------------------------------------------------
+function flatReduce(arr) {
+  return arr.reduce(
+    (prev, cur) => prev.concat(Array.isArray(cur) ? flatReduce(cur) : cur),
+    []
+  );
+}
+// console.log(flatReduce([1, 2, [3, [4, 5]]]));
+
+// ---------数组扁平化-reduce------------------------------------------------------------------------------
+
+// ---------对象扁平化------------------------------------------------------------------------------
+
+function objectFlat(obj = {}) {
+  const flattedObject = {};
+
+  function flat(obj, preKey = "") {
+    Object.entries(obj).forEach(([key, val]) => {
+      const flattedKey = preKey ? `${preKey}.${key}` : key;
+      if (val !== null && typeof val === "object") {
+        flat(val, flattedKey);
+      } else {
+        flattedObject[flattedKey] = val;
+      }
+    });
+  }
+
+  flat(obj);
+
+  return flattedObject;
+}
+
+const obj = {
+  a: 1,
+  b: 2,
+  c: {
+    a: 1.1,
+    b: 1.2,
+  },
+};
+
+console.log(objectFlat(obj));
+// ---------对象扁平化------------------------------------------------------------------------------
+
+// ---------字符串反转 + bench------------------------------------------------------------------------------
+function strReverseWithReverse(str) {
+  return str.split("").reverse().join("");
+}
+
+function strReverseWithArrayShift(str) {
+  const reversed = [];
+
+  for (let i = 0; i < str.length; i++) {
+    reversed.unshift(str[i]);
+  }
+
+  return reversed.join("");
+}
+
+function strReverseWithArraySwap(str) {
+  const strArray = str.split("");
+
+  let left = 0;
+  let right = strArray.length - 1;
+  while (left < right) {
+    [strArray[left], strArray[right]] = [strArray[right], strArray[left]];
+    left++;
+    right--;
+  }
+
+  return strArray.join("");
+}
+// console.log(strReverseWithArrayShift("abcdefg"));
+
+// ------------------- bench ----------------
+// function bench(f, count = 100000) {
+//   const start = Date.now();
+//   for (let i = 0; i < count; i++) {
+//     f();
+//   }
+//   return Date.now() - start;
+// }
+// let timeArrayShift = 0;
+// let timeArraySwap = 0;
+// let timeReverse = 0;
+// for (let i = 0; i < 1000; i++) {
+//   timeArrayShift += bench(() => strReverseWithArrayShift("abcdefg"), 1000);
+//   timeArraySwap += bench(() => strReverseWithArraySwap("abcdefg"), 1000);
+//   timeReverse += bench(() => strReverseWithReverse("abcdefg"), 1000);
+// }
+// console.log("unshift", timeArrayShift);
+// console.log("swap", timeArraySwap);
+// console.log("reverse", timeReverse);
+// 结论
+// unshift API 操作最慢，时间为 reverse 和 swap 的两倍
+// reverse 和 swap 基本一致
+// 所以掌握 【双指针-ArraySwap】和【reverse】就可以了
+// ------------------- bench ----------------
+
+// ---------字符串反转 + bench------------------------------------------------------------------------------
+
+// ---------数组 + bench------------------------------------------------------------------------------
+function arrayReverse(arr) {
+  return arr.reverse();
+}
+
+function arraySwap(arr) {
+  let left = 0;
+  let right = arr.length - 1;
+  while (left < right) {
+    [arr[right], arr[left]] = [arr[left], arr[right]];
+    left++;
+    right--;
+  }
+  return arr;
+}
+// ------------------- bench ----------------
+// function bench(f, count = 100000) {
+//   const start = Date.now();
+//   for (let i = 0; i < count; i++) {
+//     f();
+//   }
+//   return Date.now() - start;
+// }
+// let reverseTime = 0;
+// let swapTime = 0;
+// for (let i = 0; i < 100000; i++) {
+//   reverseTime += bench(() => arrayReverse([1, 2, 3, 4, 5]), 10000);
+//   swapTime += bench(() => arraySwap([1, 2, 3, 4, 5]), 10000);
+// }
+// console.log("reverseTime", reverseTime);
+// console.log("swapTime", swapTime);
+// ------------------- bench ----------------
+
+// 结论
+// swap 比 reverse能够快约 1/4
+// 双指针 swap 效率更好
+// ---------数组 + bench------------------------------------------------------------------------------

@@ -1,5 +1,4 @@
-//数组扁平化 // 对象扁平化
-// 字符串翻转 // 数组翻转 // 数组去重 // 数组排序去重 // 类数组转化数组 // 千分位 // 判断数字是否是回文数
+// 数组去重 // 数组排序去重 // 类数组转化数组 // 千分位 // 判断数字是否是回文数
 // 判断是否是素数 // 深拷贝 // 转换成为驼峰 // 验证电话 // 验证邮箱
 // 模板引擎 // 解析url // 跨域 // 随机打乱数组 // 轮训
 
@@ -10,37 +9,6 @@ slice();
 // 展开运算符;
 // 深拷贝：将一个对象从内存中拷贝一份，从堆内存中开辟一个新的空间进行存放
 
-//数组扁平化
-// 法1
-function flatten(arr) {
-  let result = [];
-  for (let i = 0; i < arr.length; i++) {
-    if (Array.isArray(arr[i])) {
-      result = result.concat(flatten(arr[i]));
-    } else {
-      result = result.concat(arr[i]);
-    }
-  }
-  return result;
-}
-function flat(arr) {
-  let result = [];
-  arr.forEach((item) => {
-    if (Array.isArray(item)) {
-      result.push(...arguments.callee(item));
-    } else {
-      result.push(item);
-    }
-  });
-  return result;
-}
-// 法2 reducer
-const flat = (arr) => {
-  return arr.reduce(
-    (pre, cur) => pre.concat(Array.isArray(cur) ? flat(cur) : cur),
-    []
-  );
-};
 // 数组排序
 function sortUniq(arr) {
   arr.sort((a, b) => a - b);
@@ -84,42 +52,6 @@ let foo = (array) => {
     .sort()
     .filter((item, index, array) => array.indexOf(item) === index);
 };
-// 对象扁平化
-function objectFlat(obj = {}) {
-  const res = {};
-  function flat(item, preKey = "") {
-    Object.entries(item).forEach(([key, val]) => {
-      const newKey = preKey ? `${preKey}.${key}` : key;
-      if (val && typeof val === "object") {
-        flat(val, newKey);
-      } else {
-        res[newKey] = val;
-      }
-    });
-  }
-  flat(obj);
-  return res;
-}
-
-// 字符串翻转
-function foo(str) {
-  return str.split("").reverse();
-}
-function foo(str) {
-  let str1 = [];
-  for (let i = 0; i < str.length; i++) {
-    str1.unshift(str[i]);
-  }
-  return str1.join(",").toString();
-}
-// 数组翻转
-function foo(str) {
-  let str1 = [];
-  for (let i = 0; i < str.length; i++) {
-    str1.unshift(str[i]);
-  }
-  return str1;
-}
 
 // 类数组转化数组
 Array.from();

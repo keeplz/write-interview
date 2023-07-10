@@ -80,3 +80,101 @@ function factorial(num) {}
 // console.log(factorial(0) === 0);
 // console.log(factorial(-100) === 0);
 // ---------阶乘------------------------------------------------------------------------------
+
+// ---------数组扁平化-普通递归------------------------------------------------------------------------------
+
+function flatNormal(arr) {}
+
+// console.log(flatNormal([1, 2, [3, [4, 5]]]));
+// ---------数组扁平化-普通递归------------------------------------------------------------------------------
+
+// ---------数组扁平化-reduce------------------------------------------------------------------------------
+function flatReduce(arr) {}
+// console.log(flatReduce([1, 2, [3, [4, 5]]]));
+
+// ---------数组扁平化-reduce------------------------------------------------------------------------------
+
+// ---------对象扁平化------------------------------------------------------------------------------
+
+function objectFlat(obj = {}) {}
+
+// const obj = {
+//   a: 1,
+//   b: 2,
+//   c: {
+//     a: 1.1,
+//     b: 1.2,
+//     c: {
+//       a: "1.1.1",
+//     },
+//   },
+// };
+
+// console.log(objectFlat(obj));
+// ---------对象扁平化------------------------------------------------------------------------------
+
+// ---------字符串反转 + bench------------------------------------------------------------------------------
+function strReverseWithReverse(str) {}
+
+function strReverseWithArrayShift(str) {}
+
+function strReverseWithArraySwap(str) {}
+// console.log(strReverseWithArrayShift("abcdefg"));
+
+// ------------------- bench ----------------
+// function bench(f, count = 100000) {
+//   const start = Date.now();
+//   for (let i = 0; i < count; i++) {
+//     f();
+//   }
+//   return Date.now() - start;
+// }
+// let timeArrayShift = 0;
+// let timeArraySwap = 0;
+// let timeReverse = 0;
+// for (let i = 0; i < 1000; i++) {
+//   timeArrayShift += bench(() => strReverseWithArrayShift("abcdefg"), 1000);
+//   timeArraySwap += bench(() => strReverseWithArraySwap("abcdefg"), 1000);
+//   timeReverse += bench(() => strReverseWithReverse("abcdefg"), 1000);
+// }
+// console.log("unshift", timeArrayShift);
+// console.log("swap", timeArraySwap);
+// console.log("reverse", timeReverse);
+// 结论
+// unshift API 操作最慢，时间为 reverse 和 swap 的两倍
+// reverse 和 swap 基本一致
+// 所以掌握 【双指针-ArraySwap】和【reverse】就可以了
+// ------------------- bench ----------------
+
+// ---------字符串反转 + bench------------------------------------------------------------------------------
+
+// ---------数组 + bench------------------------------------------------------------------------------
+function arrayReverse(arr) {}
+
+function arraySwap(arr) {}
+console.log(arrayReverse([1, 2, 3, 4, 5]));
+console.log(arraySwap([1, 2, 3, 4, 5]));
+
+// ------------------- bench ----------------
+// function bench(f, count = 100000) {
+//   const start = Date.now();
+//   for (let i = 0; i < count; i++) {
+//     f();
+//   }
+//   return Date.now() - start;
+// }
+// let reverseTime = 0;
+// let swapTime = 0;
+// for (let i = 0; i < 100000; i++) {
+//   reverseTime += bench(() => arrayReverse([1, 2, 3, 4, 5]), 10000);
+//   swapTime += bench(() => arraySwap([1, 2, 3, 4, 5]), 10000);
+// }
+// console.log("reverseTime", reverseTime);
+// console.log("swapTime", swapTime);
+
+// 结论
+// swap 比 reverse能够快约 1/4
+// 双指针 swap 效率更好
+// ------------------- bench ----------------
+
+// ---------数组 + bench------------------------------------------------------------------------------
