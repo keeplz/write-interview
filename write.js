@@ -1,13 +1,6 @@
-// 数组去重 // 数组排序去重 // 类数组转化数组 // 千分位 // 判断数字是否是回文数
-// 判断是否是素数 // 深拷贝 // 转换成为驼峰 // 验证电话 // 验证邮箱
-// 模板引擎 // 解析url // 跨域 // 随机打乱数组 // 轮训
+// 模板引擎
 
-// 浅拷贝：创建一个空对象，将原始对象的属性值进行拷贝，如果是基本类型，拷贝的就是值，如果是引用类型，拷贝的是内存地址
-Object.assign();
-concat();
-slice();
-// 展开运算符;
-// 深拷贝：将一个对象从内存中拷贝一份，从堆内存中开辟一个新的空间进行存放
+// 数组去重 // 数组排序去重   // 解析url // 跨域 // 随机打乱数组 // 轮训
 
 // 数组排序
 function sortUniq(arr) {
@@ -52,116 +45,6 @@ let foo = (array) => {
     .sort()
     .filter((item, index, array) => array.indexOf(item) === index);
 };
-
-// 类数组转化数组
-Array.from();
-Array.prototype.slice.call();
-[...array];
-
-// 千分位
-// toLocaleString
-var aA = 1234567894532;
-var bB = 67343931231.4542;
-
-console.log(aA.toLocaleString());
-console.log(bB.toLocaleString());
-//
-function numFormat(num) {
-  num = num.toString().split("."); // 分隔小数点
-  var arr = num[0].split("").reverse(); // 转换成字符数组并且倒序排列
-  var res = [];
-  for (var i = 0, len = arr.length; i < len; i++) {
-    if (i % 3 === 0 && i !== 0) {
-      res.push(","); // 添加分隔符
-    }
-    res.push(arr[i]);
-  }
-  res.reverse(); // 再次倒序成为正确的顺序
-  if (num[1]) {
-    // 如果有小数的话添加小数部分
-    res = res.join("").concat("." + num[1]);
-  } else {
-    res = res.join("");
-  }
-  return res;
-}
-
-// 判断数字是否是回文数
-const isPalindrome = (x) => {
-  if (x < 0) return false;
-  let str = x.toString();
-  return Array.from(str).reverse().join("") === str;
-};
-// 将a数字翻转成b，然后a,b变成字符串，然后进行比较a,b
-
-// 判断是否是素数
-function is_pri(m) {
-  var result = [];
-  if (m === 1) return false; //注意：1不是素数！！！
-
-  for (let i = 2; i <= parseInt(Math.sqrt(m)); i++) {
-    if (m % i === 0) {
-      return "不是" + "," + "它至少可以被" + i + "整除";
-    }
-  }
-  return "是";
-}
-// 法2
-function p(n) {
-  var n,
-    i,
-    flag = true;
-  n = parseInt(n);
-  for (i = 2; i <= n - 1; i++)
-    if (n % i == 0) {
-      flag = false;
-      break;
-    }
-  if (flag == true) console.log(n + "是素数");
-  else console.log(n + "不是素数");
-}
-
-// 深拷贝
-function deepclone(source) {
-  if (source === null || typeof source !== "object") {
-    return source;
-  }
-  let res = Array.isArray(source) ? [] : {};
-  for (const key in source) {
-    if (source.hasOwnProperty(key)) {
-      res[key] = deepclone(source[key]);
-    }
-  }
-  return res;
-}
-function deepCopy(obj) {
-  if (typeof obj === "object") {
-    var result = obj.constructor === Array ? [] : {};
-    for (var i in obj) {
-      result[i] = typeof obj[i] === "object" ? deepCopy(obj[i]) : obj[i];
-    }
-  } else {
-    var result = obj;
-  }
-  return result;
-}
-
-// 转换成为驼峰
-function Foo(s) {
-  return s.replace(/-\w/g, function (x) {
-    return x.slice(1).toUpperCase();
-  });
-}
-// 验证电话
-function isPhone(tel) {
-  var regx = /^1[34578]\d{9}$/;
-  return regx.test(tel);
-}
-// 验证邮箱
-function isEmail(email) {
-  var regx = /^([a-zA-Z0-9_\-])+@([a-zA-Z0-9_\-])+(\.[a-zA-Z0-9_\-])+$/;
-  return regx.test(email);
-}
 
 // 模板引擎
 function render(template, data) {
@@ -238,9 +121,3 @@ function setTimer() {
       console.log(error);
     });
 }
-/**
- * 4、将一个json数据的所有key从下划线改为驼峰
- *
- * @param {object | array} value 待处理对象或数组
- * @returns {object | array} 处理后的对象或数组
- */
