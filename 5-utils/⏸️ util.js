@@ -10,6 +10,14 @@
 // 8. 对象扁平化
 // 9. 字符串反转 + bench
 // 10. 数组反转 + bench
+// 11. 类数组转化
+// 12. 千分位
+// 13. 回文数
+// 14. 浅拷贝
+// 15. 深拷贝
+// 16. 驼峰
+// 17. 验证电话
+// 18. 验证邮箱
 
 // debounce 防抖
 // throttle 节流
@@ -96,9 +104,8 @@ function throttleDemo(f, ms) {
 // indexof
 function isIndexof(sub, parent) {
   for (let i = 0; i < parent.length; i++) {
-    let flag = false;
     if (parent[i] === sub[0]) {
-      flag = true;
+      let flag = true;
       for (let k = 0; k < sub.length; k++) {
         if (sub[k] !== parent[k + i]) {
           flag = false;
@@ -255,16 +262,16 @@ function objectFlat(obj = {}) {
   return flattedObject;
 }
 
-const obj = {
-  a: 1,
-  b: 2,
-  c: {
-    a: 1.1,
-    b: 1.2,
-  },
-};
+// const obj = {
+//   a: 1,
+//   b: 2,
+//   c: {
+//     a: 1.1,
+//     b: 1.2,
+//   },
+// };
 
-console.log(objectFlat(obj));
+// console.log(objectFlat(obj));
 // ---------对象扁平化------------------------------------------------------------------------------
 
 // ---------字符串反转 + bench------------------------------------------------------------------------------
@@ -324,7 +331,7 @@ function strReverseWithArraySwap(str) {
 
 // ---------字符串反转 + bench------------------------------------------------------------------------------
 
-// ---------数组 + bench------------------------------------------------------------------------------
+// ---------数组反转 + bench------------------------------------------------------------------------------
 function arrayReverse(arr) {
   return arr.reverse();
 }
@@ -360,4 +367,179 @@ function arraySwap(arr) {
 // 结论
 // swap 比 reverse能够快约 1/4
 // 双指针 swap 效率更好
-// ---------数组 + bench------------------------------------------------------------------------------
+// ---------数组反转 + bench------------------------------------------------------------------------------
+
+// --------类数组转化----------------------------------------------------------------------------------
+
+// const str = "abcd";
+// console.log(Array.from(str));
+// console.log(Array.prototype.slice.call(str));
+// console.log([...str]);
+// --------类数组转化----------------------------------------------------------------------------------
+
+// --------千分位----------------------------------------------------------------------------------
+// 千分位：每3个数字，加上一个逗号
+// 10000 -> 10,000
+
+// toLocaleString
+var intString = 1234567894532;
+var floatString = 67343931231.454;
+
+// console.log(intString.toLocaleString());
+// console.log(floatString.toLocaleString());
+
+function numFormat(num) {
+  num = String(num).split("."); // 分隔小数点
+
+  let int = num[0];
+  let pre = num[1];
+  let res = "";
+  while (int.length > 3) {
+    res = "," + int.slice(-3) + res;
+    int = int.slice(0, int.length - 3);
+  }
+  if (int !== "") res = int + res;
+
+  return pre ? res + "." + pre : res;
+}
+
+// console.log(numFormat(intString), numFormat(floatString));
+// --------千分位----------------------------------------------------------------------------------
+
+// --------回文数----------------------------------------------------------------------------------
+
+const isPalindrome = (x) => {
+  const str = x.toString();
+
+  let left = 0;
+  let right = str.length - 1;
+  while (left < right) {
+    if (str[left] !== str[right]) return false;
+    left++;
+    right--;
+  }
+  return true;
+};
+
+// const num = 12321;
+// const num2 = 12323;
+// console.log(isPalindrome(num));
+// console.log(isPalindrome(num2));
+
+// --------回文数----------------------------------------------------------------------------------
+
+// --------素数----------------------------------------------------------------------------------
+function isPrime(num) {
+  if (num === 1) return false;
+  for (let i = 2; i < num; i++) {
+    if (num % i === 0) return false;
+  }
+  return true;
+}
+
+// console.log(`9是不是素数？${isPrime(9)}`);
+// console.log(`3是不是素数？${isPrime(3)}`);
+// console.log(`8是不是素数？${isPrime(8)}`);
+// console.log(`7是不是素数？${isPrime(7)}`);
+// --------素数----------------------------------------------------------------------------------
+
+// --------浅拷贝----------------------------------------------------------------------------------
+// 1. Object.assign
+// 2. Array.prototype.concat
+// 3. Array.prototype.slice
+// 4. 扩展运算符
+// --------浅拷贝----------------------------------------------------------------------------------
+
+// --------深拷贝----------------------------------------------------------------------------------
+// 1. JSON.stringify
+//    弊端：a. Date 对象的处理存在问题(倒是可以通过 json.parse 的第二个回调参数来处理)
+//            const a = {
+//              time: new Date(),
+//            };
+
+//            const b = JSON.parse(JSON.stringify(a), (key, val) => {
+//              console.log(key, val);
+//              if (key === "time") {
+//                return new Date(val);
+//              }
+//              return val;
+//            });
+//            console.log(typeof a.time, typeof b.time);
+//         b. 会忽略值为 function、undefined 和 symbol 的属性
+
+// 2. 手写递归
+function isObject(obj) {
+  return obj !== null && (typeof obj === "function" || typeof obj === "object");
+}
+
+function deepClone(source, hash = new WeakMap()) {
+  if (!isObject(source)) return source;
+  if (hash.has(source)) return hash.get(source);
+
+  const target = Array.isArray(source) ? [] : {};
+  hash.set(source, target);
+
+  const symbols = Object.getOwnPropertySymbols(source);
+  symbols.forEach((symbol) => {
+    target[symbol] = isObject(source[symbol])
+      ? deepClone(source[symbol], hash)
+      : source[symbol];
+  });
+
+  for (let key in source) {
+    if (Object.prototype.hasOwnProperty.call(source, key)) {
+      target[key] = isObject(source[key])
+        ? deepClone(source[key], hash)
+        : source[key];
+    }
+  }
+
+  return target;
+}
+
+// const A = {
+//   name: "a",
+// };
+
+// const s = Symbol.for("test");
+// const B = {
+//   from: A,
+//   name: "B",
+//   [s]: "hi",
+// };
+// A.from = B;
+
+// const cloned = deepClone(B);
+// console.log(cloned);
+// --------深拷贝----------------------------------------------------------------------------------
+
+// --------驼峰----------------------------------------------------------------------------------
+
+function toCamelCase(s) {
+  return s.replace(/-\w/g, (x) => x.slice(1).toUpperCase());
+}
+
+// console.log(toCamelCase("split-out-baby"));
+// --------驼峰----------------------------------------------------------------------------------
+// --------验证电话----------------------------------------------------------------------------------
+
+function isPhone(tel) {
+  return /^1[34578]\d{9}$/.test(tel);
+}
+// console.log(isPhone("ab17602209999") === false);
+// console.log(isPhone("176022099999") === false);
+// console.log(isPhone("17602209999") === true);
+// --------验证电话----------------------------------------------------------------------------------
+
+// --------验证邮箱----------------------------------------------------------------------------------
+
+function isEmail(email) {
+  return /^[a-zA-Z0-9_\-]+@[a-zA-Z0-9_\-]+(\.[a-zA-Z0-9_\-]+)+$/.test(email);
+}
+
+// console.log(isEmail("54000") === false);
+// console.log(isEmail("54000@") === false);
+// console.log(isEmail("54000@qq") === false);
+// console.log(isEmail("54000@qq.com") === true);
+// console.log(isEmail("5400@0@qq.com") === false);
+// --------验证邮箱----------------------------------------------------------------------------------
