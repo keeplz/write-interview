@@ -12,29 +12,29 @@
  * @param {ListNode} head
  * @return {boolean}
  */
+
 var isPalindrome = function (head) {
-  var prev = head;
-  function recursivJudge(root) {
-    if (root === null) return true;
-    if (!recursivJudge(root.next)) {
-      return false;
-    }
-    if (root.val !== prev.val) {
-      return false;
-    }
-    prev = prev.next;
-    return true;
-  }
-  return recursivJudge(head);
+  // Answer 1. 遍历一遍存数组，双指针判断数组是否回文
+  // Answer 2. 获取链表的前半部分尾节点 fast.next !== null && fast.next.next !== null 获取；
+  //           反转之后判断，return 之前再反转恢复链表
 };
+
+// function L(val) {
+//   this.val = val;
+//   this.next = null;
+// }
+
+// const demo = new L(1);
+// demo.next = new L(2);
+// demo.next.next = new L(2);
+// demo.next.next.next = new L(1);
+// console.log(isPalindrome(demo));
+
 // ✅ 反转链表
 // https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/submissions/
 var reverseList = function (head) {
-  if (head == null || head.next == null) return head;
-  let last = reverseList(head.next);
-  head.next.next = head;
-  head.next = null;
-  return last;
+  // Answer 1. 递归
+  // Answer 2. 迭代
 };
 // ✅ 合并两个排序的链表
 // https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/submissions/
