@@ -73,7 +73,7 @@ class MPromise {
         queueMicrotask(() => {
           try {
             const x = onFulfilled(this.value);
-            resolvePromise2(promise2, x, resolve, reject);
+            resolvePromise(promise2, x, resolve, reject);
           } catch (e) {
             reject(e);
           }
@@ -83,7 +83,7 @@ class MPromise {
         queueMicrotask(() => {
           try {
             const x = onRejected(this.value);
-            resolvePromise2(promise2, x, resolve, reject);
+            resolvePromise(promise2, x, resolve, reject);
           } catch (e) {
             reject(e);
           }
@@ -103,17 +103,13 @@ class MPromise {
   }
 }
 
+module.exports = MPromise;
+
 function resolvePromise(promise, x, resolve, reject) {
   if (x === promise) {
-    reject(new Error("chaining cycle detected in promise"));
+    reject(new TypeError("chaining cycle detected in promise"));
   } else if (x instanceof MPromise) {
-    if (x.status === FULFILLED) {
-      resolve(x.value);
-    } else if (x.status === REJECTED) {
-      reject(x.value);
-    } else if (x.status === PENDING) {
-      x.then((v) => resolvePromise(promise, v, resolve, reject), reject);
-    }
+    x.then((v) => resolvePromise(promise, v, resolve, reject), reject);
   } else if (x !== null && (typeof x === "object" || typeof x === "function")) {
     // thenable
     let called = false;
@@ -183,3 +179,68 @@ Promise.race = function (promiseArr) {
   });
 };
 // =============end Promise race============================================================================================================================
+
+// =============start Promise allSettled============================================================================================================================
+Promise.myAllSettled = function (promiseArr) {
+  return new Promise((resolve) => {
+    let count = 0;
+    const res = [];
+    const cb = (value, index, status) => {
+      count++;
+      res[index] = {
+        status,
+        value,
+      };
+
+      if (count === promiseArr.length) resolve(res);
+    };
+
+    promiseArr.forEach((p, i) => {
+      Promise.resolve(p).then(
+        (v) => cb(v, i, "fulfilled"),
+        (e) => cb(e, i, "rejected")
+      );
+    });
+  });
+};
+
+// Promise.myAllSettled([
+//   new Promise((res) => setTimeout(res(2), 1000)),
+//   new Promise((res) => setTimeout(res(3), 2000)),
+//   new Promise((res, rej) => setTimeout(rej(1), 1000)),
+// ]).then((v) => {
+//   console.log(v);
+// });
+// =============end Promise allSettled============================================================================================================================
+
+// 此版本实现在下面这个demo里面是有问题的
+// const promise = new MPromise((resolve, reject) => {
+//   console.log("???");
+//   const promise2 = MPromise.reject("error").then(
+//     () => {
+//       console.log(1);
+//     },
+//     () => {
+//       console.log(2);
+//       return 222;
+//     }
+//   );
+//   resolve(promise2);
+// });
+// promise.then(console.log);
+
+// const anotherpromise = new Promise((resolve, reject) => {
+//   console.log("???");
+//   const promise2 = Promise.reject("error").then(
+//     () => {
+//       console.log(1);
+//     },
+//     () => {
+//       console.log(2);
+//       return 222;
+//     }
+//   );
+//   resolve(promise2);
+// });
+
+// anotherpromise.then(console.log);

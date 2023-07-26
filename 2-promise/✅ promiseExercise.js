@@ -85,9 +85,22 @@ function resolvePromise(promise, x, resolve, reject) {}
 // new MPromise((res) => {
 //   console.log(2);
 //   res(3);
-// }).then((v) => {
-//   console.log(v);
-// });
+// })
+//   .then((v) => {
+//     console.log(v);
+//     return new MPromise((res, rej) => {
+//       // res("哈哈哈哈");
+//       rej("wuwuwuwu");
+//     });
+//   })
+//   .then(
+//     (v) => {
+//       console.log(v);
+//     },
+//     (e) => {
+//       console.log("look at error", e);
+//     }
+//   );
 
 // console.log(5);
 
@@ -110,9 +123,10 @@ function resolvePromise(promise, x, resolve, reject) {}
 
 // =============start Promise all============================================================================================================================
 
-Promise.MyAll = function (promiseArr) {};
+Promise.MyAll;
 
 // Promise.MyAll([
+//   2,
 //   new Promise((res) => setTimeout(() => res(1000), 1000)),
 //   new Promise((res, rej) => setTimeout(() => rej(500), 500)),
 //   new Promise((res) => setTimeout(() => res(2000), 2000)),
@@ -128,10 +142,10 @@ Promise.MyAll = function (promiseArr) {};
 
 // =============start Promise race============================================================================================================================
 
-MPromise.race = function (promiseArray) {};
+MPromise.race;
 
 // MPromise.race([
-//   2,
+//   // 2,
 //   new Promise((resolve) => {
 //     setTimeout(() => resolve(1000), 1000);
 //   }),
@@ -146,16 +160,14 @@ MPromise.race = function (promiseArray) {};
 // });
 // =============end Promise race============================================================================================================================
 
-// 此版本实现在下面这个demo里面是有问题的
-// const promise = new MPromise((resolve, reject) => {
-//   const promise2 = MPromise.reject("error").then(
-//     () => {
-//       console.log(1);
-//     },
-//     () => {
-//       console.log(2);
-//     }
-//   );
-//   resolve(promise2);
+// =============start Promise allSettled============================================================================================================================
+Promise.myAllSettled = function (promiseArr) {};
+
+// Promise.myAllSettled([
+//   new Promise((res) => setTimeout(res(2), 1000)),
+//   new Promise((res) => setTimeout(res(3), 2000)),
+//   new Promise((res, rej) => setTimeout(rej(1), 1000)),
+// ]).then((v) => {
+//   console.log(v);
 // });
-// promise.then(console.log);
+// =============end Promise allSettled============================================================================================================================
