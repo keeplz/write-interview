@@ -9,9 +9,9 @@ function debounce(f, ms, immediate = false) {}
 // setTimeout(() => f("d"), 2300);
 
 // const f2 = debounce(console.log, 1000);
-// setTimeout(() => f2("a"), 500);
-// setTimeout(() => f2("b"), 500);
-// setTimeout(() => f2("c"), 500);
+// setTimeout(() => f2("a"), 800);
+// setTimeout(() => f2("b"), 1200);
+// setTimeout(() => f2("c"), 2300);
 
 // --------debounce 防抖----------------------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ function throttle(f, ms) {}
 // let f1000 = throttle(console.log, 1000);
 // f1000(1); // 显示 1
 // f1000(2); // (节流，尚未到 1000ms)
-// f1000(3); // (节流，尚未到 1000ms)
+// f1000(3); // (节流，尚未到 1000ms) 然后最后一次调用
 // --------throttle 节流----------------------------------------------------------------------------------------
 
 // --------判断子字符串的位置-------------------------------------------------------------------------------------
@@ -84,7 +84,6 @@ function factorial(num) {}
 // ---------数组扁平化-普通递归------------------------------------------------------------------------------
 
 function flatNormal(arr) {}
-
 // console.log(flatNormal([1, 2, [3, [4, 5]]]));
 // ---------数组扁平化-普通递归------------------------------------------------------------------------------
 
@@ -185,7 +184,6 @@ function arraySwap(arr) {}
 // --------类数组转化----------------------------------------------------------------------------------
 
 const str = "abcd";
-
 // console.log(Array.from(str));
 // console.log(Array.prototype.slice.call(str));
 // console.log([...str]);
@@ -199,7 +197,7 @@ const str = "abcd";
 
 function numFormat(num) {}
 
-// const intString = 1234567894532;
+// const intString = 123456789453;
 // const floatString = 67343931231.454;
 // console.log(numFormat(intString));
 // console.log(numFormat(floatString));
@@ -223,6 +221,7 @@ function isPrime(num) {}
 // console.log(`3是不是素数？${isPrime(3)}`);
 // console.log(`8是不是素数？${isPrime(8)}`);
 // console.log(`7是不是素数？${isPrime(7)}`);
+// console.log(`1是不是素数？${isPrime(1)}`);
 // --------素数----------------------------------------------------------------------------------
 
 // --------浅拷贝----------------------------------------------------------------------------------
@@ -275,5 +274,35 @@ function isEmail(email) {}
 // console.log(isEmail("54000@") === false);
 // console.log(isEmail("54000@qq") === false);
 // console.log(isEmail("54000@qq.com") === true);
+// console.log(isEmail("54000@qq.com.cn") === true);
 // console.log(isEmail("5400@0@qq.com") === false);
 // --------验证邮箱----------------------------------------------------------------------------------
+
+// --------插值表达式的解析原理----------------------------------------------------------------------------------
+
+function render(template, data) {}
+
+// console.log(render(template, person));
+// --------插值表达式的解析原理----------------------------------------------------------------------------------
+
+// --------解析url search param----------------------------------------------------------------------------------
+function parseSearchParam(url) {}
+
+// const url =
+//   "http://www.domain.com/?user=anonymous&id=12.3&id=456&ip=333.33.3&order=12123&city=%E5%8C%97%E4%BA%AC&enabled&from=https%3A%2F%2Fwww.youtube.com%2Fabc%2Fsss%3Fabc%3D2134";
+// console.log(parseSearchParam(url));
+// --------解析url search param----------------------------------------------------------------------------------
+
+// --------打乱数组----------------------------------------------------------------------------------
+
+function randomSort() {}
+
+function shuffle(arr) {}
+
+const arr = [1, 2, 3, 4, 5];
+
+// arr.sort(randomSort);
+// console.log(arr);
+
+// console.log(shuffle([1, 2, 3, 4, 5, 6]));
+// --------打乱数组----------------------------------------------------------------------------------

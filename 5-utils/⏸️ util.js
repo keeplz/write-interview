@@ -18,6 +18,8 @@
 // 16. 驼峰
 // 17. 验证电话
 // 18. 验证邮箱
+// 19. 插值表达式的解析
+// 20. 解析url param
 
 // debounce 防抖
 // throttle 节流
@@ -430,7 +432,8 @@ const isPalindrome = (x) => {
 
 // --------素数----------------------------------------------------------------------------------
 function isPrime(num) {
-  if (num === 1) return false;
+  if (num <= 1) return false;
+
   for (let i = 2; i < num; i++) {
     if (num % i === 0) return false;
   }
@@ -541,5 +544,78 @@ function isEmail(email) {
 // console.log(isEmail("54000@") === false);
 // console.log(isEmail("54000@qq") === false);
 // console.log(isEmail("54000@qq.com") === true);
+// console.log(isEmail("54000@qq.com.cn") === true);
 // console.log(isEmail("5400@0@qq.com") === false);
 // --------验证邮箱----------------------------------------------------------------------------------
+
+// --------插值表达式的解析原理----------------------------------------------------------------------------------
+
+function render(template, data) {
+  const reg = /\{\{(\w+)\}\}/;
+  if (!reg.test(template)) return template;
+
+  const propName = reg.exec(template)[1];
+  const replacedTemplate = template.replace(reg, data[propName]);
+
+  return render(replacedTemplate, data);
+}
+// const template = "我是{{name}}, 今年{{age}} 岁，性别 {{sex}}";
+// const person = {
+//   name: "嫩叠",
+//   age: 12,
+//   sex: "2in1",
+// };
+
+// console.log(render(template, person));
+// --------插值表达式的解析原理----------------------------------------------------------------------------------
+
+// --------解析url param----------------------------------------------------------------------------------
+function parseSearchParam(url) {
+  const paramsStr = /.+\?(.+)$/.exec(url)[1]; // 将 ? 后面的字符串取出来
+  const paramsArr = paramsStr.split("&"); // 将字符串以 & 分割后存到数组中
+  let paramsObj = {};
+  // 将 params 存到对象中
+  paramsArr.forEach((param) => {
+    if (/=/.test(param)) {
+      // 处理有 value 的参数
+      let [key, val] = param.split("="); // 分割 key 和 value
+      val = decodeURIComponent(val); // 解码
+      val = isFinite(val) ? parseFloat(val) : val; // 判断是否转为数字
+
+      if (paramsObj.hasOwnProperty(key)) {
+        // 如果对象有 key，则添加一个值
+        paramsObj[key] = [].concat(paramsObj[key], val);
+      } else {
+        // 如果对象没有这个 key，创建 key 并设置值
+        paramsObj[key] = val;
+      }
+    } else {
+      // 处理没有 value 的参数
+      paramsObj[param] = true;
+    }
+  });
+  return paramsObj;
+}
+
+let url =
+  "http://www.domain.com/?user=anonymous&id=123&id=456&city=%E5%8C%97%E4%BA%AC&enabled";
+// --------解析url param----------------------------------------------------------------------------------
+
+// --------打乱数组----------------------------------------------------------------------------------
+
+function randomSort(a, b) {
+  return Math.random() > 0.5 ? -1 : 1;
+  //用Math.random()函数生成0~1之间的随机数与0.5比较，返回-1或1
+}
+
+function randomSortShuffle(arr) {
+  // 洗牌算法
+  for (let i = 0; i < arr.length; i++) {
+    const j = i + Math.floor(Math.random() * (arr.length - i));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+var arrSorted = [1, 2, 3, 4, 5];
+arrSorted.sort(randomSort);
+console.log(arrSorted);
+// --------打乱数组----------------------------------------------------------------------------------
